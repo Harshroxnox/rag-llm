@@ -1,6 +1,7 @@
 import os
 from flask import Flask, request, jsonify
-from rag import query_response
+from rag import query
+from ingestPdf import embedPdf
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -13,12 +14,14 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 def question():
     if request.is_json:
         data = request.get_json()
-        # document_link = data.get("documents")
+        document_url = data.get("documents")
         question_list = data.get("questions")
+
+        embedPdf(document_url)
 
         answer_list = []
         for ques in question_list:
-            ans = query_response(ques)
+            ans = query(ques)
             answer_list.append(ans)
 
         return jsonify({"answers": answer_list})
