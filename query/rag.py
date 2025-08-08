@@ -51,3 +51,7 @@ def query(question):
   )
 
   return response.text
+
+# Example Usage
+# ans = query("What is the coverage for Cataract Treatment?")
+# print(ans)
