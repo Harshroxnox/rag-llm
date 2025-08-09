@@ -8,6 +8,7 @@ import os
 load_dotenv()
 
 PINCONE_API_KEY = os.getenv("PINECONE_API_KEY")
+PINECOST_HOST = os.getenv("PINECOST_HOST")
 
 # The client gets the API key from the environment variable `GEMINI_API_KEY`.
 client = genai.Client()
@@ -17,9 +18,7 @@ pc = Pinecone(api_key = PINCONE_API_KEY)
 def query(question):
   question_vector = getEmbedding(question)
 
-  index_name = "gemini-dense-py"
-
-  index = pc.Index(index_name)
+  index = pc.Index(host=PINECOST_HOST)
 
   resp = index.query(
     namespace="__default__",
@@ -53,5 +52,5 @@ def query(question):
   return response.text
 
 # Example Usage
-# ans = query("What is the coverage for Cataract Treatment?")
+# ans = query("What will happen to the unregistered students?")
 # print(ans)
