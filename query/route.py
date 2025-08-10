@@ -26,12 +26,13 @@ def question():
         with open("log.txt", "a") as file:
             file.write(f"Request at {timestamp}\n")
             file.write("Responses\n\n")
+            file.write(f"Document link : {document_url}\n\n")
             for ques in question_list:
                 ans = query(ques)
                 answer_list.append(ans)
                 file.write(f"Ques : {ques}\n")
                 file.write(f"Ans : {ans}\n\n")
-            file.write("-----------------------------------------------\n")
+            file.write("----------------------------------------------------------------------------------------\n")
 
         return jsonify({"answers": answer_list})
 
