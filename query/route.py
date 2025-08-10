@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify
 from rag import query
 from ingestPdf import embedPdf
+from datetime import datetime
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -19,10 +20,18 @@ def question():
 
         embedPdf(document_url)
 
+        timestamp = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
         answer_list = []
-        for ques in question_list:
-            ans = query(ques)
-            answer_list.append(ans)
+        with open("log.txt", "a") as file:
+            file.write(f"Request at {timestamp}\n")
+            file.write("Responses\n\n")
+            for ques in question_list:
+                ans = query(ques)
+                answer_list.append(ans)
+                file.write(f"Ques : {ques}\n")
+                file.write(f"Ans : {ans}\n\n")
+            file.write("-----------------------------------------------\n")
 
         return jsonify({"answers": answer_list})
 
